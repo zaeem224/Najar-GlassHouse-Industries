@@ -26,13 +26,31 @@ Open this folder in VS Code. Install Node.js 24.22.0 or newer, open the VS Code 
 
 <!-- coderabbit-ai-generated-section:v1:ba7519b7c4077ef6b580e3cf2744ea31a69b3d87a3a8cc2bca52ed809f4fd1bf -->
 
-1. The existing Supabase project has been created and `supabase/schema.sql` run once. The script creates the categories, sample products, image bucket, row-level permissions, and a 1,000-product cap. Removing a category also deletes its products. For a new project, run the script **once**, and back up any existing data before database changes.
+<!-- coderabbit-ai-generated:v1 -->
+
+<!-- coderabbit-ai-generated-section:v1:86892ee8bf50e2ae40ab49110ad5ffcb3864f66e9445e222b9a0cee121b6a629 -->
+
+<!-- coderabbit-ai-generated:v1 -->
+
+<!-- coderabbit-ai-generated-section:v1:beafb78ac804e68999ec4b14fb3c9610476c1d5c0a8f9c8bee9cbe800dbd0600 -->
+
+1. The existing Supabase project has been created and `supabase/schema.sql` run once. The script creates the categories, sample products, image bucket, row-level permissions, and a 1,000-product cap. Removing a category also deletes its products. Run `supabase/add_second_admin.sql` afterwards to add the second administrator. For a new project, run the schema **once** and then the administrator script. Back up existing data before database changes.
+
+<!-- /coderabbit-ai-generated:v1 -->
+
+<!-- /coderabbit-ai-generated:v1 -->
 2. `.env` contains the existing project URL and publishable key. These are public values protected by database policies; never put a secret or service-role key in the website. To connect a different project, set `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` to its URL and publishable key, then restart the server. Local overrides can be placed in `.env.local`.
 
 <!-- /coderabbit-ai-generated:v1 -->
 3. Configure Google as a sign-in provider in Supabase Authentication. Create Google OAuth credentials in Google Cloud using Supabase's callback URL as the Google authorized redirect URI. Add the Google client ID and secret in Supabase, not in the website code. Configure the OAuth consent screen and add the shopkeeper as a test user while the app is in testing mode.
 4. In Supabase Authentication URL configuration, set the site URL to `https://najarglasshouse.com` for production, and allow `https://najarglasshouse.com/auth/callback`. For local testing, also allow `http://localhost:3000/auth/callback`. In Google Cloud, add the Supabase callback URL exactly as shown in the Supabase Google provider setup. Follow the provider dashboards for their current configuration requirements.
-5. Visit `/admin`, sign in with `maqboolmuzzamil265@gmail.com`, and add or remove products. The database and image policies allow changes only for this Google account. Other accounts can browse public products but cannot edit them. Change both the admin email in `app/admin/page.js` and all policies in `supabase/schema.sql` if the authorized account ever changes; apply policy changes in Supabase as well.
+<!-- coderabbit-ai-generated:v1 -->
+
+<!-- coderabbit-ai-generated-section:v1:274b82097c82b2165cb50e8c5ec9b7440b6bca466715d92141f7639f41c57050 -->
+
+5. Visit `/admin` and sign in with either `maqboolmuzzamil265@gmail.com` or `xamoxm366@gmail.com` to manage products. The database and image policies allow changes only for these Google accounts; other accounts can browse but cannot edit. Add both accounts as Google OAuth test users if the app is in testing mode. Keep the admin email list in `app/admin/page.js` and the database and storage policies in sync when changing access.
+
+<!-- /coderabbit-ai-generated:v1 -->
 <!-- coderabbit-ai-generated:v1 -->
 
 <!-- coderabbit-ai-generated-section:v1:1471e336995d132374e51d674ca4c5f57dc50f2208c099b401ac070eecd6ea9c -->

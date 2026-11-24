@@ -17,14 +17,33 @@ await db.exec('grant select on public.products, public.categories to anon, authe
 const claims = (email, provider='google') => JSON.stringify({email,app_metadata:{provider}}).replaceAll("'", "''");
 async function signed(email,provider='google') { await db.exec(`reset role; set role authenticated; select set_config('request.jwt.claims','${claims(email,provider)}',false);`); }
 async function rejects(query) { let failed=false; try { await db.exec(query); } catch { failed=true; } assert.ok(failed, 'Expected rejection: '+query); }
+await signed('xamoxm366@gmail.com');
+await rejects("insert into public.categories(name) values ('Before migration')");
+await db.exec('reset role');
+const migration = readFileSync(new URL('../supabase/add_second_admin.sql', import.meta.url),'utf8');
+await db.exec(migration);
+await db.exec(migration); // Reapplying the migration must remain safe.
 await db.exec('set role anon;');
 assert.equal((await db.query('select count(*)::int as count from public.products')).rows[0].count,4);
 await rejects("insert into public.categories(name) values ('No')");
 await signed('not-the-owner@example.com');
 await rejects("insert into public.categories(name) values ('No')");
+await rejects("insert into public.products(images) values (array['/test.jpg'])");
 await rejects("insert into storage.objects(bucket_id) values ('product-images')");
 await signed('maqboolmuzzamil265@gmail.com','email');
 await rejects("insert into public.categories(name) values ('No')");
+await signed('xamoxm366@gmail.com','email');
+await rejects("insert into public.categories(name) values ('No')");
+await rejects("insert into storage.objects(bucket_id) values ('product-images')");
+await signed('XAMOXM366@gmail.com');
+await db.exec("insert into public.categories(name) values ('Second admin'); insert into public.products(category_id, images) select id, array['/test.jpg'] from public.categories where name='Second admin'; insert into storage.objects(bucket_id) values ('product-images');");
+await db.exec("update public.products set name='Updated by second admin' where category_id = (select id from public.categories where name='Second admin');");
+assert.equal((await db.query("select count(*)::int as count from public.products where name='Updated by second admin'")).rows[0].count,1);
+assert.equal((await db.query("select count(*)::int as count from storage.objects where bucket_id='product-images'")).rows[0].count,1);
+await rejects("insert into storage.objects(bucket_id) values ('another-bucket')");
+await db.exec("delete from storage.objects where bucket_id='product-images'; delete from public.products where name='Updated by second admin'; delete from public.categories where name='Second admin';");
+assert.equal((await db.query("select count(*)::int as count from storage.objects where bucket_id='product-images'")).rows[0].count,0);
+assert.equal((await db.query('select count(*)::int as count from public.products')).rows[0].count,4);
 await signed('maqboolmuzzamil265@gmail.com');
 await db.exec("insert into public.categories(name) values ('Test'); insert into storage.objects(bucket_id) values ('product-images'); delete from storage.objects where bucket_id='product-images';");
 assert.equal((await db.query('select count(*)::int as count from storage.objects')).rows[0].count,0);
