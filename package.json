@@ -6,17 +6,33 @@
     "dev": "next dev --hostname 0.0.0.0",
     "build": "next build",
     "start": "next start --hostname 0.0.0.0",
-    "test": "node tests/security.mjs"
+    "test": "node tests/security.mjs",
+    "dev:vinext": "vite dev --port 3001",
+    "build:vinext": "vite build",
+    "start:vinext": "vite preview",
+    "deploy:vinext": "vinext-cloudflare deploy"
   },
   "dependencies": {
     "@supabase/ssr": "latest",
     "@supabase/supabase-js": "latest",
+    "@vinext/cloudflare": "latest",
     "lucide-react": "latest",
     "next": "latest",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-server-dom-webpack": "latest",
+    "vinext": "latest"
   },
   "devDependencies": {
-    "@electric-sql/pglite": "^0.6.0"
+    "@cloudflare/vite-plugin": "beta",
+    "@electric-sql/pglite": "^0.6.0",
+    "@vitejs/plugin-react": "latest",
+    "@vitejs/plugin-rsc": "latest",
+    "cf": "latest",
+    "vite": "^8.3.8"
+  },
+  "type": "module",
+  "overrides": {
+    "fflate": "0.8.3"
   }
 }
