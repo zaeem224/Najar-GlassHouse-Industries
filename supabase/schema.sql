@@ -35,18 +35,18 @@ create policy "Anyone can read categories" on public.categories for select to an
 create policy "Anyone can read products" on public.products for select to anon, authenticated using (true);
 -- Checking the signed JWT at the database is essential: the browser alone cannot grant access.
 create policy "Shopkeeper manages categories" on public.categories for all to authenticated
-  using (lower(auth.jwt()->>'email') = 'maqboolmuzzamil265@gmail.com' and auth.jwt()->'app_metadata'->>'provider' = 'google')
-  with check (lower(auth.jwt()->>'email') = 'maqboolmuzzamil265@gmail.com' and auth.jwt()->'app_metadata'->>'provider' = 'google');
+  using (lower(auth.jwt()->>'email') in ('maqboolmuzzamil265@gmail.com', 'xamoxm366@gmail.com') and auth.jwt()->'app_metadata'->>'provider' = 'google')
+  with check (lower(auth.jwt()->>'email') in ('maqboolmuzzamil265@gmail.com', 'xamoxm366@gmail.com') and auth.jwt()->'app_metadata'->>'provider' = 'google');
 create policy "Shopkeeper manages products" on public.products for all to authenticated
-  using (lower(auth.jwt()->>'email') = 'maqboolmuzzamil265@gmail.com' and auth.jwt()->'app_metadata'->>'provider' = 'google')
-  with check (lower(auth.jwt()->>'email') = 'maqboolmuzzamil265@gmail.com' and auth.jwt()->'app_metadata'->>'provider' = 'google');
+  using (lower(auth.jwt()->>'email') in ('maqboolmuzzamil265@gmail.com', 'xamoxm366@gmail.com') and auth.jwt()->'app_metadata'->>'provider' = 'google')
+  with check (lower(auth.jwt()->>'email') in ('maqboolmuzzamil265@gmail.com', 'xamoxm366@gmail.com') and auth.jwt()->'app_metadata'->>'provider' = 'google');
 insert into storage.buckets (id, name, public, allowed_mime_types) values ('product-images', 'product-images', true, array['image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/avif']) on conflict (id) do nothing;
 create policy "Shopkeeper can manage product image records" on storage.objects for select to authenticated
-  using (bucket_id = 'product-images' and lower(auth.jwt()->>'email') = 'maqboolmuzzamil265@gmail.com' and auth.jwt()->'app_metadata'->>'provider' = 'google');
+  using (bucket_id = 'product-images' and lower(auth.jwt()->>'email') in ('maqboolmuzzamil265@gmail.com', 'xamoxm366@gmail.com') and auth.jwt()->'app_metadata'->>'provider' = 'google');
 create policy "Shopkeeper uploads product images" on storage.objects for insert to authenticated
-  with check (bucket_id = 'product-images' and lower(auth.jwt()->>'email') = 'maqboolmuzzamil265@gmail.com' and auth.jwt()->'app_metadata'->>'provider' = 'google');
+  with check (bucket_id = 'product-images' and lower(auth.jwt()->>'email') in ('maqboolmuzzamil265@gmail.com', 'xamoxm366@gmail.com') and auth.jwt()->'app_metadata'->>'provider' = 'google');
 create policy "Shopkeeper removes product images" on storage.objects for delete to authenticated
-  using (bucket_id = 'product-images' and lower(auth.jwt()->>'email') = 'maqboolmuzzamil265@gmail.com' and auth.jwt()->'app_metadata'->>'provider' = 'google');
+  using (bucket_id = 'product-images' and lower(auth.jwt()->>'email') in ('maqboolmuzzamil265@gmail.com', 'xamoxm366@gmail.com') and auth.jwt()->'app_metadata'->>'provider' = 'google');
 
 insert into public.categories (id, name) values
  ('ec063811-b2f0-4763-a165-63e30c022001', 'Blue'),

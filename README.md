@@ -32,7 +32,13 @@ Open this folder in VS Code. Install Node.js 24.22.0 or newer, open the VS Code 
 <!-- /coderabbit-ai-generated:v1 -->
 3. Configure Google as a sign-in provider in Supabase Authentication. Create Google OAuth credentials in Google Cloud using Supabase's callback URL as the Google authorized redirect URI. Add the Google client ID and secret in Supabase, not in the website code. Configure the OAuth consent screen and add the shopkeeper as a test user while the app is in testing mode.
 4. In Supabase Authentication URL configuration, set the site URL to `https://najarglasshouse.com` for production, and allow `https://najarglasshouse.com/auth/callback`. For local testing, also allow `http://localhost:3000/auth/callback`. In Google Cloud, add the Supabase callback URL exactly as shown in the Supabase Google provider setup. Follow the provider dashboards for their current configuration requirements.
-5. Visit `/admin`, sign in with `maqboolmuzzamil265@gmail.com`, and add or remove products. The database and image policies allow changes only for this Google account. Other accounts can browse public products but cannot edit them. Change both the admin email in `app/admin/page.js` and all policies in `supabase/schema.sql` if the authorized account ever changes; apply policy changes in Supabase as well.
+<!-- coderabbit-ai-generated:v1 -->
+
+<!-- coderabbit-ai-generated-section:v1:dcef5f1e119d95f5d7bc5f5cfb69f40bb85619a7845d80293645de0073317e73 -->
+
+5. Visit `/admin` and sign in with either `maqboolmuzzamil265@gmail.com` or `xamoxm366@gmail.com` through Google. Both accounts can manage products, categories, and product images. Other accounts can browse public products but cannot edit them. For an existing project with the original one-account policies, apply `supabase/migrations/202611250001_allow_second_admin.sql` once in the Supabase SQL editor; it changes the existing policies without re-seeding the catalog. Confirm the policies match the original schema before applying it. For a new project, `supabase/schema.sql` already includes both accounts. Keep the frontend allowlist and database and storage policies in sync when changing authorized accounts.
+
+<!-- /coderabbit-ai-generated:v1 -->
 <!-- coderabbit-ai-generated:v1 -->
 
 <!-- coderabbit-ai-generated-section:v1:1471e336995d132374e51d674ca4c5f57dc50f2208c099b401ac070eecd6ea9c -->
